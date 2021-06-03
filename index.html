@@ -69,9 +69,21 @@
           const map = L.map(
             planDiv,
             {
+              // Sets the right scaling options for fitBounds()
               crs: L.CRS.Simple,
               zoomSnap: .1,
-              minZoom: -3
+              minZoom: -3,
+              // Removes all controls, interactions and links
+              attributionControl: false,
+              boxZoom: false,
+              closePopupOnClick: false,
+              doubleClickZoom: false,
+              dragging: false,
+              keyboard: false,
+              scrollWheelZoom: false,
+              touchZoom: false,
+              // trackResize: false,
+              zoomControl: false
             }
           );
           const layer = L.geoJSON(plan).addTo(map);
