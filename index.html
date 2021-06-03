@@ -1,0 +1,60 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title>Data exploration</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="">
+  <meta property="og:type" content="">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+
+  <!-- <link rel="manifest" href="site.webmanifest"> -->
+  <!-- <link rel="apple-touch-icon" href="icon.png"> -->
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+
+  <div class="grid-container">
+    <div class="controls">
+      <button type="button">Bungalow</button>
+      <button type="button">Detached</button>
+      <button type="button">Flat</button>
+      <button type="button">Maisonette</button>
+      <button type="button">Semi-detached</button>
+      <button type="button">Terraced</button>
+      <button type="button">Triplex</button>
+    </div>
+    <div class="data" id="map"></div>
+  </div>
+  <!-- <script src="js/vendor/modernizr-3.11.2.min.js"></script> -->
+  <!-- <script src="js/plugins.js"></script> -->
+  <!-- <script src="js/main.js"></script> -->
+  <script>
+    const map = L.map('map', {crs: L.CRS.Simple});
+    fetch('./data/57e7103c-50bc-4002-a96c-f10058c991a9.geojson')
+      .then(response => response.json())
+      .then(data => {
+        const layer = L.geoJSON(data).addTo(map);
+        map.fitBounds(layer.getBounds());
+      });
+  </script>
+
+</body>
+
+</html>
