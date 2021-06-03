@@ -2,7 +2,7 @@
   --border-width: 2px;
   background-color: black;
   border: solid var(--border-width) black;
-  height: calc(100vh - 2*var(--border-width));
+  min-height: calc(100vh - 2*var(--border-width));
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-template-rows: 1fr;
@@ -19,6 +19,12 @@
   grid-area: data;
   background-color: white;
   /* height: 200px; */
+}
+
+.plan {
+  display: inline-block;
+  height: 300px;
+  width: 300px;
 }
 
 /*! HTML5 Boilerplate v8.0.0 | MIT License | https://html5boilerplate.com/ */

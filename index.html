@@ -40,19 +40,37 @@
       <button type="button">Terraced</button>
       <button type="button">Triplex</button>
     </div>
-    <div class="data" id="map"></div>
+    <div class="data"></div>
   </div>
   <!-- <script src="js/vendor/modernizr-3.11.2.min.js"></script> -->
   <!-- <script src="js/plugins.js"></script> -->
   <!-- <script src="js/main.js"></script> -->
   <script>
-    const map = L.map('map', {crs: L.CRS.Simple});
-    fetch('./data/57e7103c-50bc-4002-a96c-f10058c991a9.geojson')
-      .then(response => response.json())
-      .then(data => {
-        const layer = L.geoJSON(data).addTo(map);
-        map.fitBounds(layer.getBounds());
-      });
+    const floorplanPaths = [
+      './data/0a6e347e-51ac-453c-85d0-c569e44c7a41.geojson',
+      './data/1b3b292a-c737-4314-9302-9ffe4233d5be.geojson',
+      './data/2fa534fb-2028-4113-98d4-b9ed5d36e08b.geojson',
+      './data/51620c8e-32a5-4ed1-aed5-286b09621208.geojson',
+      './data/57e7103c-50bc-4002-a96c-f10058c991a9.geojson',
+      './data/6d322c6a-b617-4e6f-809b-d0609861c1b3.geojson',
+      './data/7a56de60-01f6-440c-8565-0fb420fffe18.geojson',
+      './data/a4b26891-0b70-49fe-8dc0-7425ce903c4a.geojson',
+      './data/c867cb96-c666-49cd-869d-a16ce43a3164.geojson',
+      './data/fffe2a5b-bec2-494a-97d9-e53c75c0cea6.geojson'
+    ];
+    const dataDiv = document.querySelector('.data');
+    for (path of floorplanPaths) {
+      fetch(path)
+        .then(response => response.json())
+        .then(plan => {
+          const planDiv = document.createElement('div');
+          planDiv.className = 'plan';
+          dataDiv.appendChild(planDiv);
+          const map = L.map(planDiv, {crs: L.CRS.Simple});
+          const layer = L.geoJSON(plan).addTo(map);
+          map.fitBounds(layer.getBounds());
+        });
+    }
   </script>
 
 </body>
