@@ -22,9 +22,10 @@
 }
 
 .plan {
+  --tile-size: 256px;
   display: inline-block;
-  height: 300px;
-  width: 300px;
+  height: var(--tile-size);
+  width: var(--tile-size);
 }
 
 /*! HTML5 Boilerplate v8.0.0 | MIT License | https://html5boilerplate.com/ */

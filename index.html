@@ -66,9 +66,16 @@
           const planDiv = document.createElement('div');
           planDiv.className = 'plan';
           dataDiv.appendChild(planDiv);
-          const map = L.map(planDiv, {crs: L.CRS.Simple});
+          const map = L.map(
+            planDiv,
+            {
+              crs: L.CRS.Simple,
+              zoomSnap: .1,
+              minZoom: -3
+            }
+          );
           const layer = L.geoJSON(plan).addTo(map);
-          map.fitBounds(layer.getBounds());
+          map.fitBounds(layer.getBounds(), {padding: [10, 10]});
         });
     }
   </script>
