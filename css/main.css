@@ -13,6 +13,7 @@
 .controls {
   grid-area: controls;
   background-color: white;
+  padding: 8px 8px;
 }
 
 .data {
@@ -28,6 +29,23 @@
   width: var(--tile-size);
   background-color: transparent;
   margin: 10px;
+}
+
+button {
+  --bgcolor: white;
+  --fgcolor: black;
+  background-color: var(--bgcolor);
+  border: solid 1px var(--fgcolor);
+  border-radius: 5px;
+  margin: 5px;
+  padding: 8px 16px;
+  font-family: sans-serif;
+  color: var(--fgcolor);
+}
+
+button:hover {
+  background-color: var(--fgcolor);
+  color: var(--bgcolor);
 }
 
 /*! HTML5 Boilerplate v8.0.0 | MIT License | https://html5boilerplate.com/ */
