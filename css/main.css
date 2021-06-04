@@ -2,6 +2,7 @@
   --border-width: 2px;
   --bgcolor: white;
   --fgcolor: black;
+  --font: sans-serif;
   background-color: var(--fgcolor);
   border: solid var(--border-width) var(--fgcolor);
   min-height: calc(100vh - 2*var(--border-width));
@@ -33,8 +34,8 @@
   margin: 10px;
 }
 
-.big-plan {
-  background-color: var(--bgcolor);
+.big-plan-container {
+  background-color: var(--fgcolor);
   border: solid var(--border-width) var(--fgcolor);
   position: absolute;
   left: calc(50% - .5*var(--border-width));
@@ -43,11 +44,33 @@
   height: calc(90vh - 4*var(--border-width));
   width: calc(90% - var(--border-width));
   z-index: 500;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr;
+  gap: var(--border-width);
+  grid-template-areas: "big-plan plan-data";
+}
+
+.big-plan {
+  background-color: var(--bgcolor);
+}
+
+.plan-data {
+  background-color: var(--bgcolor);
+  font-family: var(--font);
+}
+
+.plan-data > div {
+  padding: 16px 16px;
+}
+
+.plan-data > a, a:visited {
+  color: var(--fgcolor);
 }
 
 button {
   background-color: var(--bgcolor);
-  font-family: sans-serif;
+  font-family: var(--font);
   color: var(--fgcolor);
 }
 

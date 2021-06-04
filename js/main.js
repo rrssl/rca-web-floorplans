@@ -67,11 +67,12 @@ const setPopUp = function(feature, layer) {
 };
 const dataDiv = document.querySelector('.data');
 // Create the big plan view.
-const bigPlanDiv = document.querySelector('.big-plan');
-const bigPlanMap = L.map(bigPlanDiv, bigMapOptions);
+const bigPlanContainer = document.querySelector('.big-plan-container');
+const bigPlanElement = bigPlanContainer.querySelector('.big-plan')
+const bigPlanMap = L.map(bigPlanElement, bigMapOptions);
 document.querySelector('.close-button').onclick = function() {
     bigPlanMap.eachLayer(layer => bigPlanMap.removeLayer(layer));
-    bigPlanDiv.classList.add('invisible');
+    bigPlanContainer.classList.add('invisible');
 };
 // Create the array of plan thumbnails.
 for (path of floorplanPaths) {
@@ -86,13 +87,13 @@ for (path of floorplanPaths) {
             layer.addTo(map);
             map.fitBounds(layer.getBounds(), {padding: [10, 10]});
             planDiv.onclick = function() {
-                if (bigPlanDiv.classList.contains('invisible')) {
+                if (bigPlanContainer.classList.contains('invisible')) {
                     const bigPlanLayer = L.geoJSON(
                         plan, {style: setPlanStyle, onEachFeature: setPopUp}
                     );
                     bigPlanLayer.addTo(bigPlanMap);
                     bigPlanMap.fitBounds(bigPlanLayer.getBounds(), {padding: [50, 50]});
-                    bigPlanDiv.classList.remove('invisible');
+                    bigPlanContainer.classList.remove('invisible');
                 }
             };
         });
