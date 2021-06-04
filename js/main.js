@@ -82,13 +82,16 @@ for (path of floorplanPaths) {
             planDiv.className = 'plan';
             dataDiv.appendChild(planDiv);
             const map = L.map(planDiv, mapOptions);
-            const layer = L.geoJSON(plan, {style: setPlanStyle, onEachFeature: setPopUp});
+            const layer = L.geoJSON(plan, {style: setPlanStyle});
             layer.addTo(map);
             map.fitBounds(layer.getBounds(), {padding: [10, 10]});
             planDiv.onclick = function() {
                 if (bigPlanDiv.classList.contains('invisible')) {
-                    layer.addTo(bigPlanMap);
-                    bigPlanMap.fitBounds(layer.getBounds(), {padding: [50, 50]});
+                    const bigPlanLayer = L.geoJSON(
+                        plan, {style: setPlanStyle, onEachFeature: setPopUp}
+                    );
+                    bigPlanLayer.addTo(bigPlanMap);
+                    bigPlanMap.fitBounds(bigPlanLayer.getBounds(), {padding: [50, 50]});
                     bigPlanDiv.classList.remove('invisible');
                 }
             };
