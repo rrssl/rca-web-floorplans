@@ -1,7 +1,9 @@
-.grid-container {
+.app-container {
   --border-width: 2px;
-  background-color: black;
-  border: solid var(--border-width) black;
+  --bgcolor: white;
+  --fgcolor: black;
+  background-color: var(--fgcolor);
+  border: solid var(--border-width) var(--fgcolor);
   min-height: calc(100vh - 2*var(--border-width));
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -12,13 +14,13 @@
 
 .controls {
   grid-area: controls;
-  background-color: white;
+  background-color: var(--bgcolor);
   padding: 8px 8px;
 }
 
 .data {
   grid-area: data;
-  background-color: white;
+  background-color: var(--bgcolor);
   position: relative;  /* needed to position big-plan absolutely */
 }
 
@@ -32,8 +34,6 @@
 }
 
 .big-plan {
-  --bgcolor: white;
-  --fgcolor: black;
   background-color: var(--bgcolor);
   border: solid var(--border-width) var(--fgcolor);
   position: absolute;
@@ -46,8 +46,6 @@
 }
 
 button {
-  --bgcolor: white;
-  --fgcolor: black;
   background-color: var(--bgcolor);
   font-family: sans-serif;
   color: var(--fgcolor);
@@ -66,9 +64,9 @@ button:hover {
 }
 
 .close-button {
-  border: solid 2px var(--fgcolor);
+  border: solid var(--border-width) var(--fgcolor);
   float: right;
-  margin: -2px;
+  margin: calc(-1*var(--border-width));
   font-size: large;
 }
 
