@@ -1,12 +1,13 @@
 import os
 
-import pandas
-from flask import Flask, json, jsonify, render_template
+import numpy as np
+import pandas as pd
+from flask import Flask, json, jsonify, render_template, request
 
 app = Flask(__name__)
 data_dir = os.path.abspath("../data")
 database_path = os.path.join(data_dir, "metadata.feather")
-database = pandas.read_feather(database_path)
+database = pd.read_feather(database_path)
 
 
 @app.route("/")
@@ -17,7 +18,24 @@ def index():
 @app.route("/FloorPlanSearch")
 def search_floorplans():
     n_results = 10
-    results = database.sample(n_results)
+    masks = {}
+    if request.args:
+        for key in request.args:
+            if key == 'type':
+                value = request.args.get(key).upper()
+                mask = database['TA Group'] == value
+            if key in masks:
+                masks[key] |= mask
+            else:
+                masks[key] = mask
+        final_mask = np.logical_and.reduce(list(masks.values()))
+        results = database[final_mask]
+    else:
+        results = database
+    # For now, return a random subset.
+    # TODO Once we implement pagination in the frontend, accept a page number
+    # parameter and return the corresponding chunk of plans (no more random).
+    results = results.sample(n_results)
 
     plans = []
     for _, result in results.iterrows():
