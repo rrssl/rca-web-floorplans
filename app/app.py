@@ -20,9 +20,17 @@ def search_floorplans():
     results = database.sample(n_results)
 
     plans = []
-    for pid in results['Plan ID']:
-        path = os.path.join(data_dir, "plans", f"{pid}.geojson")
+    for _, result in results.iterrows():
+        plan = {
+            'metadata': [
+                f"Type: {result['TA Group'].capitalize()}",
+                f"Year built: {result['Year']}",
+                f"Total area: {result['Total Unit Area']:.2f}m²"
+            ]
+        }
+        path = os.path.join(data_dir, "plans", f"{result['Plan ID']}.geojson")
         with open(path) as f:
-            plans.append(json.load(f))
+            plan['geo'] = json.load(f)
+        plans.append(plan)
 
     return jsonify(plans)

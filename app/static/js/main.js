@@ -68,9 +68,13 @@ const dataDiv = document.querySelector('.data');
 const bigPlanContainer = document.querySelector('.big-plan-container');
 const bigPlanElement = bigPlanContainer.querySelector('.big-plan')
 const bigPlanMap = L.map(bigPlanElement, bigMapOptions);
+const planDataElement = bigPlanContainer.querySelector('.plan-data > .plan-data-content');
 document.querySelector('.close-button').onclick = function() {
     bigPlanMap.eachLayer(layer => bigPlanMap.removeLayer(layer));
     bigPlanContainer.classList.add('invisible');
+    while (planDataElement.firstChild) {
+        planDataElement.removeChild(planDataElement.lastChild);
+    }
 };
 
 const displayFloorPlans = function(plans) {
@@ -79,19 +83,29 @@ const displayFloorPlans = function(plans) {
         planDiv.className = 'plan';
         dataDiv.appendChild(planDiv);
         const map = L.map(planDiv, mapOptions);
-        const layer = L.geoJSON(plan, {style: setPlanStyle});
+        const layer = L.geoJSON(plan.geo, {style: setPlanStyle});
         layer.addTo(map);
         map.fitBounds(layer.getBounds(), {padding: [10, 10]});
         planDiv.onclick = function() {
             if (bigPlanContainer.classList.contains('invisible')) {
+                // Map
                 const bigPlanLayer = L.geoJSON(
-                    plan, {style: setPlanStyle, onEachFeature: setPopUp}
+                    plan.geo, {style: setPlanStyle, onEachFeature: setPopUp}
                 );
                 bigPlanLayer.addTo(bigPlanMap);
                 bigPlanMap.fitBounds(
                     bigPlanLayer.getBounds(), {padding: [50, 50]}
                 );
                 bigPlanContainer.classList.remove('invisible');
+                // Side pane metadata
+                const dataList = document.createElement('ul');
+                planDataElement.appendChild(dataList);
+                for (const item of plan.metadata) {
+                    const listElement = document.createElement('li');
+                    dataList.appendChild(listElement);
+                    listElement.innerText = item;
+
+                }
             }
         };
     }
