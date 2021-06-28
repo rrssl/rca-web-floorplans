@@ -25,20 +25,28 @@ const mapOptions = {
 };
 
 const labelColormap = {
-    'door.arc': '#000000',
-    'door.frame': '#000000',
-    'floor_space.balcony': '#a6cee3',
-    'floor_space.bathroom': '#1f78b4',
-    'floor_space.corridor': '#b2df8a',
-    'floor_space.kitchen': '#33a02c',
-    'floor_space.kitchen_dining': '#fb9a99',
-    'floor_space.polyroom': '#e31a1c',
-    'floor_space.room': '#fdbf6f',
-    'floor_space.staircase': '#ff7f00',
-    'floor_space.storeroom': '#cab2d6',
-    'wall': '#000000',
-    'window': '#000000',
-    '': '#ffffff'
+    'Door arc': '#000000',
+    'Door frame': '#000000',
+    'Wall': '#000000',
+    'Window': '#000000',
+    '': '#ffffff',
+
+    'Single Room': '#fdbf6f',
+    'Double Room': '#fdbf6f',
+    'Large Room': '#e31a1c',
+
+    'Balcony': '#a6cee3',
+
+    'Bathroom': '#1f78b4',
+
+    'Corridor': '#b2df8a',
+    'Corridor + Staircase': '#b2df8a',
+    'Staircase': '#ff7f00',
+
+    'Storeroom': '#cab2d6',
+
+    'Kitchen': '#33a02c',
+    'Dining Kitchen': '#fb9a99'
 };
 
 const setPlanStyle = function(feature) {
@@ -50,11 +58,8 @@ const setPlanStyle = function(feature) {
 };
 
 const setPopUp = function(feature, layer) {
-    if (feature.properties.label) {
-        const labelParts = feature.properties.label.split('.');
-        if (labelParts[0] == 'floor_space') {
-            layer.bindPopup(labelParts[1]);
-        }
+    if (feature.properties.is_floor_space) {
+        layer.bindPopup(feature.properties.label);
     }
 };
 
