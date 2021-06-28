@@ -78,6 +78,13 @@ document.querySelector('.close-button').onclick = function() {
 };
 
 const displayFloorPlans = function(plans) {
+    // Clear existing plans
+    Array.from(dataDiv.children).forEach(child => {
+        if (child.classList.contains('plan')) {
+            dataDiv.removeChild(child);
+        }
+    });
+    // Display new plans
     for (let plan of plans) {
         const planDiv = document.createElement('div');
         planDiv.className = 'plan';
@@ -100,7 +107,7 @@ const displayFloorPlans = function(plans) {
                 // Side pane metadata
                 const dataList = document.createElement('ul');
                 planDataElement.appendChild(dataList);
-                for (const item of plan.metadata) {
+                for (let item of plan.metadata) {
                     const listElement = document.createElement('li');
                     dataList.appendChild(listElement);
                     listElement.innerText = item;
@@ -111,13 +118,23 @@ const displayFloorPlans = function(plans) {
     }
 };
 
-const searchFloorPlans = function(/*query*/) {
-    return fetch("/FloorPlanSearch", {
-        // method: 'GET',
-        // body: JSON.stringify(query),
-        // headers:{'Content-Type': 'application/json'}
-    }).then(response => response.json());
+const searchFloorPlans = function(searchParams) {
+    const queryUrl = new URL("/FloorPlanSearch", window.location.href);
+    if (searchParams){
+        for (const [key, value] of searchParams) {
+            queryUrl.searchParams.append(key, value);
+        }
+    }
+    return fetch(queryUrl).then(response => response.json());
 };
 
-searchFloorPlans().then(plans => displayFloorPlans(plans));
-// searchFloorPlans().then(plans => console.log(plans));
+// TODO Hold query parameters in a variable, and allow the tag buttons to be
+// cumulative instead of exclusive. Use the button state to determine whether
+// the tag should be added or removed from the query.
+for (let button of document.querySelectorAll('.tag-button')) {
+    button.onclick = function() {
+        searchFloorPlans([['type', button.innerText]]).then(displayFloorPlans);
+    }
+}
+
+searchFloorPlans().then(displayFloorPlans);
